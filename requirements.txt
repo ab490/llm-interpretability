@@ -1,2 +1,7 @@
 matplotlib
+torch
 transfomer-lens
+numpy
+pandas
+tqdm
+huggingface-hub

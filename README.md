@@ -1,4 +1,4 @@
-# attention-ablation-analysis
+# attention-analysis
 
 This repo contains a set of experiments analyzing attention head ablations in large language models.  
 It focuses on how ablating different heads affects token prediction probabilities across lags.
@@ -26,9 +26,7 @@ bash bash/run_ablations.sh
 Outputs are saved under ```outputs/ablations/<model_name>/```
 
 
-#### Arguments that can be passed
-
-The main script (`run_ablations.py`) supports the following key arguments:
+### Arguments that can be passed
 
 - `--model_name`  
   Model to run (e.g. `Llama-3.1-8B-Instruct`, `Mistral-7B-Instruct-v0.1`)
@@ -49,11 +47,11 @@ The main script (`run_ablations.py`) supports the following key arguments:
 - `--mode`  
   Ablation mode: `zero` or `mean`
   Controls how attention scores are ablated for selected heads:
-  - `zero`: Sets all attention scores for the ablated head to −∞, effectively removing the head entirely.
+  - `zero`: Sets all attention scores for the ablated head to −inf.
   - `mean`: Replaces all attention scores for the ablated head with their mean value.
 
 - `--layer_abl`  
-  Layers to consider: `full`, `top`, or `bottom`
+  Layers to consider: `full`, `top`, `bottom`
   - `full`: Consider heads from all layers in the model.
   - `top`: Consider heads only from the lower half of layers (closer to the input).
   - `bottom`: Consider heads only from the upper half of layers (closer to the output).
@@ -69,4 +67,4 @@ The main script (`run_ablations.py`) supports the following key arguments:
 
 
 The current repo is set to be used for Llama-3.1-8B-Instruct, with the corresponding token set and induction-head scores CSV already provided.
-To test other models, provide a sorted induction-head scores CSV in the same format as the existing Llama file and update the relevant arguments and add the model name to the ```MODEL_MAPPING`` dictionary if it is not already included.
+To test other models, provide a sorted induction-head scores CSV in the same format as the existing Llama file and update the relevant arguments and add the model name to the ```MODEL_MAPPING``` dictionary if it is not already included.

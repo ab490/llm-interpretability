@@ -46,15 +46,15 @@ Outputs are saved under ```outputs/ablations/<model_name>/```
 
 - `--mode`  
   Ablation mode: `zero` or `mean`
-  Controls how attention scores are ablated for selected heads:
-  - `zero`: Sets all attention scores for the ablated head to −inf.
-  - `mean`: Replaces all attention scores for the ablated head with their mean value.
+  Controls how attention scores are ablated for selected heads
+  - `zero`: Sets all attention scores for the ablated head to −inf
+  - `mean`: Replaces all attention scores for the ablated head with their mean value
 
 - `--layer_abl`  
   Layers to consider: `full`, `top`, `bottom`
-  - `full`: Consider heads from all layers in the model.
-  - `top`: Consider heads only from the lower half of layers (closer to the input).
-  - `bottom`: Consider heads only from the upper half of layers (closer to the output).
+  - `full`: Consider heads from all layers in the model
+  - `top`: Consider heads only from the lower half of layers (closer to the input)
+  - `bottom`: Consider heads only from the upper half of layers (closer to the output)
 
 - `--tokens_path`  
   Path to token pickle used for prompt construction
@@ -64,6 +64,16 @@ Outputs are saved under ```outputs/ablations/<model_name>/```
 
 - `--output_dir`  
   Directory where results are saved
+
+- `--n_devices`  
+  Number of GPU devices to use (default: `2`) 
+  Increase this to shard large models across multiple GPUs
+
+- `--dtype`  
+  Model precision: `bfloat16` or `float16` (default: `bfloat16`)  
+
+- `--seed`  
+  Random seed for reproducibility (default: `42`)
 
 
 The current repo is set to be used for Llama-3.1-8B-Instruct, with the corresponding token set and induction-head scores CSV already provided.

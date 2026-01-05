@@ -95,7 +95,7 @@ def calculate_output_probabs(model: HookedTransformer, prompt_tokens: torch.Tens
     return probs[prompt_token_ids].detach().cpu().numpy()  # (seq,)
 
 
-def plot_and_save(lags, probabilities, out_png: Path, title: str, show: bool = False):
+def plot_and_save(lags, probabilities, out_png: Path, title: str):
     """Plot lag vs probability curve and save it."""
     plt.figure(figsize=(8, 5))
     plt.plot(lags, probabilities)
@@ -107,8 +107,6 @@ def plot_and_save(lags, probabilities, out_png: Path, title: str, show: bool = F
     plt.tight_layout()
     out_png.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(out_png, bbox_inches="tight", dpi=300)
-    if show:
-        plt.show()
     plt.close()
 
 
@@ -127,7 +125,6 @@ def run_experiment(
     n_devices: int,
     dtype: str,
     seed: int,
-    show: bool,
 ):
     """Main experiment runner."""
     if model_name not in MODEL_MAPPING:
@@ -217,7 +214,7 @@ def run_experiment(
         csv_name = f"{model_name}_perm{permutations}_abl{num_abl}_{mode}_{head_type}_{layer_abl}.csv"
         title = f"{model_name} | perms={permutations} | heads={num_abl} | {mode} | {head_type} | {layer_abl}"
 
-        plot_and_save(lags, probabilities, output_dir / "figures" / fig_name, title, show=show)
+        plot_and_save(lags, probabilities, output_dir / "figures" / fig_name, title)
 
         df_out = pd.DataFrame({"Lag": lags, "Mean Probability": probabilities})
         df_out.to_csv(output_dir / "tables" / csv_name, index=False)
@@ -241,7 +238,6 @@ def parse_args():
     p.add_argument("--n_devices", type=int, default=1)
     p.add_argument("--dtype", choices=["bfloat16", "float16"], default="bfloat16")
     p.add_argument("--seed", type=int, default=42)
-    p.add_argument("--show", action="store_true")
     return p.parse_args()
 
 
@@ -264,5 +260,4 @@ if __name__ == "__main__":
         n_devices=args.n_devices,
         dtype=args.dtype,
         seed=args.seed,
-        show=args.show,
     )        
